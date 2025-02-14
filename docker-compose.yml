@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  es1:
+    image: elasticsearch:8.17.1
+    container_name: es1
+    hostname: es1
+    restart: unless-stopped
+    healthcheck:
+      test: "curl --silent --fail http://es1:9200/_cluster/health"
+    environment:
+      - "node.store.allow_mmap=false"
+      - "node.name=es1"
+      - "bootstrap.memory_lock=true"
+      - "cluster.name=es-cluster"
+      - "cluster.initial_master_nodes=es1"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.index.number_of_replicas=0"
+      - "xpack.security.enabled=false"
+      - "xpack.security.http.ssl.enabled=false"
+      - "xpack.security.transport.ssl.enabled=false"
+      - "xpack.ml.enabled=true"
+      - "xpack.graph.enabled=false"
+      - "xpack.watcher.enabled=false"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+    volumes:
+      - ./es/es1/data:/usr/share/elasticsearch/data
+      - ./es/es1/log:/usr/share/elasticsearch/log
+
+  kibana:
+    image: kibana:8.17.1
+    healthcheck:
+      test: "curl --silent --fail http://kibana:5601/status"
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://es1:9200"
+      - "SERVER_NAME=127.0.0.1"
+    ports:
+      - 5601:5601
+    depends_on:
+      - es1
+
+  anaconda:
+    build: .  # 현재 디렉토리에서 Dockerfile을 찾아 빌드
+    container_name: anaconda_container
+    hostname: anaconda
+    ports:
+      - 8888:8888
+      - 8501:8501
+    volumes:
+      - ./streamlit:/home/jovyan/streamlit 
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    restart: unless-stopped
