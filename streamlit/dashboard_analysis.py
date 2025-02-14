@@ -36,6 +36,49 @@ try:
         "기타": ['AGRICTR_AM', 'MBRSHOP_AM']
     }
 
+    # 각 컬럼에 대응하는 한글명 정의
+    column_translation = {
+        'INTERIOR_AM': '가전/가구/주방용품',
+        'APPLNC_AM': '가전제품',
+        'KITWR_AM': '주방용품',
+        'INSU_AM': '보험',
+        'HOS_AM': '병원',
+        'OFFEDU_AM': '사무/학원',
+        'OFFCOM_AM': '사무/통신기기',
+        'BOOK_AM': '서적',
+        'ACDM_AM': '학원',
+        'TRVLEC_AM': '여행/레저/문화',
+        'LEISURE_S_AM': '레저업소',
+        'LEISURE_P_AM': '레저용품',
+        'CULTURE_AM': '문화/취미',
+        'HOTEL_AM': '숙박업',
+        'TRVL_AM': '여행업',
+        'FSBZ_AM': '음식업',
+        'HLTHFS_AM': '건강식품',
+        'GROCERY_AM': '식료품',
+        'RESTRNT_AM': '음식점',
+        'SVCARC_AM': '수리/건축자재',
+        'BLDMNG_AM': '건물관리',
+        'ARCHIT_AM': '건축자재',
+        'OPTIC_AM': '광학제품',
+        'RPR_AM': '수리서비스',
+        'SVC_AM': '용역서비스',
+        'DIST_AM': '유통',
+        'DISTBNP_AM': '유통업비영리',
+        'DISTBP_AM': '유통업영리',
+        'PLSANIT_AM': '보건위생',
+        'CLOTHGDS_AM': '의류/신변잡화',
+        'CLOTH_AM': '의류',
+        'FABRIC_AM': '직물',
+        'GOODS_AM': '잡화',
+        'AUTO_AM': '자동차',
+        'FUEL_AM': '연료',
+        'AUTOMNT_AM': '자동차정비',
+        'AUTOSL_AM': '자동차판매',
+        'MBRSHOP_AM': '회원제업소',
+        'AGRICTR_AM': '농업'
+    }
+
     # 선택한 카테고리의 데이터 요약
     st.subheader(f"{category} 카테고리 요약")
 
@@ -59,6 +102,62 @@ try:
 
         st.write(f"💰 총 소비금액:")
         st.write(f'''최대값: {df_category['total_am'].max()}, 최소값: {df_category['total_am'].min()}, 평균값: {df_category['total_am'].mean()}, 표준편차: {df_category['total_am'].std()}''')
+
+
+        import streamlit as st
+        import pandas as pd
+
+        data = [
+            ("INTERIOR_AM", "가전/가구/주방용품"),
+            ("INSUHOS_AM", "보험/병원"),
+            ("OFFEDU_AM", "사무통신/서적/학원"),
+            ("TRVLEC_AM", "여행/레져/문화"),
+            ("FSBZ_AM", "요식업"),
+            ("SVCARC_AM", "용역/수리/건축자재"),
+            ("DIST_AM", "유통"),
+            ("PLSANIT_AM", "보건위생"),
+            ("CLOTHGDS_AM", "의류/신변잡화"),
+            ("AUTO_AM", "자동차/연료/정비"),
+            ("FUNITR_AM", "가구"),
+            ("APPLNC_AM", "가전제품"),
+            ("HLTHFS_AM", "건강식품"),
+            ("BLDMNG_AM", "건물및시설관리"),
+            ("ARCHIT_AM", "건축/자재"),
+            ("OPTIC_AM", "광학제품"),
+            ("AGRICTR_AM", "농업"),
+            ("LEISURE_S_AM", "레져업소"),
+            ("LEISURE_P_AM", "레져용품"),
+            ("CULTURE_AM", "문화/취미"),
+            ("SANIT_AM", "보건/위생"),
+            ("INSU_AM", "보험"),
+            ("OFFCOM_AM", "사무/통신기기"),
+            ("BOOK_AM", "서적/문구"),
+            ("RPR_AM", "수리서비스"),
+            ("HOTEL_AM", "숙박업"),
+            ("GOODS_AM", "신변잡화"),
+            ("TRVL_AM", "여행업"),
+            ("FUEL_AM", "연료판매"),
+            ("SVC_AM", "용역서비스"),
+            ("DISTBNP_AM", "유통업비영리"),
+            ("DISTBP_AM", "유통업영리"),
+            ("GROCERY_AM", "음식료품"),
+            ("HOS_AM", "의료기관"),
+            ("CLOTH_AM", "의류"),
+            ("RESTRNT_AM", "일반/휴게음식"),
+            ("AUTOMNT_AM", "자동차정비/유지"),
+            ("AUTOSL_AM", "자동차판매"),
+            ("KITWR_AM", "주방용품"),
+            ("FABRIC_AM", "직물"),
+            ("ACDM_AM", "학원"),
+            ("MBRSHOP_AM", "회원제형태업소"),
+        ]
+
+        # Create DataFrame
+        df = pd.DataFrame(data, columns=["코드", "내용"])
+
+        # Display the table using Streamlit
+        st.text("📍 영문코드")
+        st.table(df)
 
 except Exception as e:
     st.error(f"파일을 읽는 중 오류가 발생했습니다: {e}")
